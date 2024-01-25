@@ -1,0 +1,22 @@
+version: '1'
+
+services:
+  server:
+    ports:
+      - "8001:8001"
+    container_name: store-server
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # connect to the db container
+    environment:
+      - MONGO_URL=mongodb://db:27017/store
+      - PORT=8001
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
